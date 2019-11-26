@@ -1,7 +1,7 @@
-# by jan@mccs.nl
-# a Thycotic discovery script to do a reverse dns scan on the dns target that you need.
+# by: jan@mccs.nl
+# https://github.com/4passwords/ReverseDNSscanner
 
-# precleanup.
+precleanup.
 #
 
 if ($scanmethod -ne $null) { remove-variable scanmethod }
@@ -19,20 +19,20 @@ write-error @"
 _
 _
 _
-syntax: scanmethod rangevalue domainsuffix dnsservers runtype
+syntax: scanmethod rangevalue -nodnssuffix dnsservers runtype
 _
 _
 _
 ___scanmethod values : subnet,iprange
 ___rangevalue values : x.x.x.x/yy, x.x.x.x-y.y.y.y
-___domainsuffix values : domain.local
+___domainsuffix values : domain.local,-nodnssuffix
 ___dnsservers values : x.x.x.x, y.y.y.y
 ___operating system value : windows,esxi,aix,linux
 ___runtype value : execute,testdata
 _
 _
 _
-Call the script with the required script arguments without parameternames, only the values in the correct order, scanmethod, rangevalue, domainsuffix and dnsservers. 
+Call the script with the required script arguments without parameternames, only the values in the correct order, scanmethod, rangevalue, domainsuffix or -nodnssuffix and dnsservers. 
 The ip range is splitted with an -, the subnet with an / and the dns servers with a , if multiple dns servers are supplied.
 _
 _
@@ -319,8 +319,14 @@ switch ($runtype.Tolower())
               if ($hostname -ne $null)
               {
               $object = New-Object –TypeName PSObject;
-              $object | Add-Member -MemberType NoteProperty -Name Machine -Value ($hostname + "." + $domainsuffix);
+                  if ($domainsuffix -eq "-nodnssuffix") { 
+              $object | Add-Member -MemberType NoteProperty -Name Machine -Value ($hostname);
+     
+              } else {
+                     $object | Add-Member -MemberType NoteProperty -Name Machine -Value ($hostname + "." + $domainsuffix);
+              }
               $object | Add-Member -MemberType NoteProperty -Name OperatingSystem -Value $osvalue
+
   $object | Add-Member -MemberType NoteProperty -Name DistinguishedName -Value ("C=" + $hostname + "," + "OU=" + $rangevalue)
               #$object | Add-Member -MemberType NoteProperty -Name IP -Value $IP;
               $FoundComputers +=$object;
