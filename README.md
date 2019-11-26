@@ -15,6 +15,7 @@ TODO improvements:
 
 - TODO-Improvement: Dynamicly fetch or detect the operating system
 
+```powershell
 syntax: scanmethod rangevalue domainsuffix dnsservers osvalue runtype
 _
 _
@@ -33,9 +34,10 @@ The ip range is splitted with an -, the subnet with an / and the dns servers wit
 _
 _
 _
+````
 
+t
 
-```powershell
 
 
 
