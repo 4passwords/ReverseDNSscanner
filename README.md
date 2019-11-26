@@ -16,28 +16,27 @@ TODO improvements:
 - TODO-Improvement: Dynamicly fetch or detect the operating system
 
 ```powershell
-syntax: scanmethod rangevalue domainsuffix dnsservers osvalue runtype
-_
-_
-_
+syntax: scanmethod rangevalue -nodnssuffix dnsservers runtype
+
 ___scanmethod values : subnet,iprange
 ___rangevalue values : x.x.x.x/yy, x.x.x.x-y.y.y.y
-___domainsuffix values : domain.local
+___domainsuffix values : domain.local,-nodnssuffix
 ___dnsservers values : x.x.x.x, y.y.y.y
 ___operating system value : windows,esxi,aix,linux
 ___runtype value : execute,testdata
-_
-_
-_
-Call the script with the required script arguments without parameternames, only the values in the correct order, scanmethod, rangevalue, domainsuffix and dnsservers. 
-The ip range is splitted with an -, the subnet with an / and the dns servers with a , if multiple dns servers are supplied.
-_
-_
-_
+
 ````
+Call the script with the required script arguments without parameternames, only the values in the correct order, scanmethod, rangevalue, domainsuffix or -nodnssuffix 
+and dnsservers. 
+The ip range is splitted with an -, the subnet with an / and the dns servers with a , if multiple dns servers are supplied.
 
-t
+#Discovery output example
 
+```
+Machine                        OperatingSystem DistinguishedName                         
+-------                        --------------- -----------------                         
+testcomputername1.domain.local windows         C=testcomputername1,OU=127.0.0.1-127.0.0.2
+```
 
 
 
