@@ -33,10 +33,24 @@ The ip range is splitted with an -, the subnet with an / and the dns servers wit
 #Discovery output example
 
 ```
-Machine                        OperatingSystem DistinguishedName                         
--------                        --------------- -----------------                         
-testcomputername1.domain.local windows         C=testcomputername1,OU=127.0.0.1-127.0.0.2
+Machine           OperatingSystem DistinguishedName                  
+-------           --------------- -----------------                  
+testcomputername1 windows         C=testcomputername1,OU=127.0.0.0/24
 ```
+
+#discovery test implementation
+
+- add the script in thycotic under scripts
+- add to the discovery scanners a machine scanner with a nane, powershell discovery, hostrange as input template, output template computer, and as script the new powershell script. 
+-- as script arguments 
+```
+subnet $target -nodnssuffix dnsserver1,dnsserver2 OStypename execute
+```
+- add a new disovery source
+- add a manual host range and add a subnet or range (make sure the script has the correct arguments like iprange or subnet
+- add the machine scanner, make sure the user attached can execute as user on the DE or the webserver powershell scripts
+- add as find accounts the unix user or any other desired account detect method
+
 
 
 
